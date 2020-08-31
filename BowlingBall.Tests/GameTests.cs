@@ -5,22 +5,22 @@ namespace BowlingBall.Tests
 {
     public class GameTests
     {
-        private Game game;
-        private GameOperations gameOperations;
+        private readonly Game game;
+        private readonly GameOperations gameOperations;
         public GameTests()
         {
             gameOperations = new GameOperations();
             game = new Game();
             
         }
-        private void rollMany(int rolls, int pins)
+        private void RollMany(int rolls, int pins)
         {
             for (int i = 0; i < rolls; i++)
             {
                 gameOperations.Roll(pins);
             }
         }
-        private void rollSpare()
+        private void RollSpare()
         {
             gameOperations.Roll(6);
             gameOperations.Roll(4);
@@ -34,40 +34,75 @@ namespace BowlingBall.Tests
         [Fact]
         public void GutterGameTest()
         {
-            rollMany(20, 0);
+            RollMany(20, 0);
             Assert.Equal(0, game.Score(gameOperations));
         }
 
         [Fact]
         public void AllOnesTest()
         {
-            rollMany(20, 1);
+            RollMany(20, 1);
             Assert.Equal(20, game.Score(gameOperations));
         }
 
         [Fact]
         public void OneSpareTest()
         {
-            rollSpare();
+            RollSpare();
             gameOperations.Roll(4);
-            rollMany(17, 0);
+            RollMany(17, 0);
             Assert.Equal(18, game.Score(gameOperations));
         }
-
+        [Fact]
+        public void TwoSpareTest()
+        {
+            RollSpare();
+            RollSpare();
+            Assert.Equal(26, game.Score(gameOperations));
+        }
         [Fact]
         public void OneStrikeTest()
         {
             gameOperations.Roll(10);
             gameOperations.Roll(4);
             gameOperations.Roll(5);
-            rollMany(17, 0);
+            RollMany(17, 0);
             Assert.Equal(28, game.Score(gameOperations));
+        }
+
+        [Fact]
+        public void ThreeStrikeTest()
+        {
+            gameOperations.Roll(10);
+            gameOperations.Roll(10);
+            gameOperations.Roll(10);
+            Assert.Equal(60, game.Score(gameOperations));
+        }
+        [Fact]
+        public void  StrikeAtBothEndTest()
+        {
+            gameOperations.Roll(10);
+            gameOperations.Roll(4);
+            gameOperations.Roll(5);
+            gameOperations.Roll(10);
+            RollMany(17, 0);
+            Assert.Equal(38, game.Score(gameOperations));
+        }
+
+        [Fact]
+        public void StrikeAtEndTest()
+        {
+            gameOperations.Roll(4);
+            gameOperations.Roll(5);
+            gameOperations.Roll(10);
+            RollMany(17, 0);
+            Assert.Equal(19, game.Score(gameOperations));
         }
 
         [Fact]
         public void AllStrikesTest()
         {
-            rollMany(12, 10);
+            RollMany(12, 10);
             Assert.Equal(300, game.Score(gameOperations));
         }
 

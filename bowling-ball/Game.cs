@@ -1,8 +1,9 @@
-﻿using System;
+﻿using BowlingBall.Interfaces;
+using System;
 
 namespace BowlingBall
 {
-    public class Game
+    public class Game : IGame
     {
         public int Score(GameOperations gameOperations)
         {
@@ -10,12 +11,12 @@ namespace BowlingBall
             int frameIndex = 0;
             for (int frame = 0; frame < 10; frame++)
             {
-                if (gameOperations.isSpare(frameIndex))
+                if (gameOperations.IsSpare(frameIndex))
                 {  
                     score += 10 + gameOperations.rolls[frameIndex + 2];
                     frameIndex += 2;
                 }
-                else if (gameOperations.isStrike(frameIndex))
+                else if (gameOperations.IsStrike(frameIndex))
                 {
                     score += 10 + gameOperations.rolls[frameIndex + 1] + gameOperations.rolls[frameIndex + 2];
                     frameIndex++;

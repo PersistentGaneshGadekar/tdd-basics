@@ -7,14 +7,14 @@ namespace BowlingBall
    public class GameOperations
     {
         public int[] rolls = new int[21];
-        private int[] frame = new int[10];
+       // private int[] frame = new int[10];
         int currentRoll = 0;
-        public bool isSpare(int frameIndex)
+        public bool IsSpare(int frameIndex)
         {
             return rolls[frameIndex] + rolls[frameIndex + 1] == 10;
         }
 
-        public bool isStrike(int frameIndex)
+        public bool IsStrike(int frameIndex)
         {
             return rolls[frameIndex] == 10;
         }
