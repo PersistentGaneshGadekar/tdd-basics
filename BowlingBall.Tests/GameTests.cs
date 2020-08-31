@@ -5,88 +5,91 @@ namespace BowlingBall.Tests
 {
     public class GameTests
     {
-        private Game g;
+        private Game game;
+        private GameOperations gameOperations;
         public GameTests()
         {
-            g = new Game();
+            gameOperations = new GameOperations();
+            game = new Game();
+            
         }
         private void rollMany(int rolls, int pins)
         {
             for (int i = 0; i < rolls; i++)
             {
-                g.Roll(pins);
+                gameOperations.Roll(pins);
             }
         }
         private void rollSpare()
         {
-            g.Roll(6);
-            g.Roll(4);
+            gameOperations.Roll(6);
+            gameOperations.Roll(4);
         }
         [Fact]
         public void TestBowlingGameClass()
         {
-            Assert.IsType<Game>(g);
+            Assert.IsType<Game>(game);
         }
 
         [Fact]
-        public void TestGutterGame()
+        public void GutterGameTest()
         {
             rollMany(20, 0);
-            Assert.Equal(0, g.Score());
+            Assert.Equal(0, game.Score(gameOperations));
         }
 
         [Fact]
-        public void TestAllOnes()
+        public void AllOnesTest()
         {
             rollMany(20, 1);
-            Assert.Equal(20, g.Score());
+            Assert.Equal(20, game.Score(gameOperations));
         }
 
         [Fact]
-        public void TestOneSpare()
+        public void OneSpareTest()
         {
             rollSpare();
-            g.Roll(4);
+            gameOperations.Roll(4);
             rollMany(17, 0);
-            Assert.Equal(18, g.Score());
+            Assert.Equal(18, game.Score(gameOperations));
         }
 
         [Fact]
-        public void TestOneStrike()
+        public void OneStrikeTest()
         {
-            g.Roll(10);
-            g.Roll(4);
-            g.Roll(5);
+            gameOperations.Roll(10);
+            gameOperations.Roll(4);
+            gameOperations.Roll(5);
             rollMany(17, 0);
-            Assert.Equal(28, g.Score());
+            Assert.Equal(28, game.Score(gameOperations));
         }
 
         [Fact]
-        public void TestPerfectGame()
+        public void AllStrikesTest()
         {
             rollMany(12, 10);
-            Assert.Equal(300, g.Score());
+            Assert.Equal(300, game.Score(gameOperations));
         }
 
         [Fact]
-        public void TestRandomGameNoExtraRoll()
+        public void RandomGameNoExtraRollTest()
         {
-            g.Roll(new int[] { 1, 3, 7, 3, 10, 1, 7, 5, 2, 5, 3, 8, 2, 8, 2, 10, 9, 0 });
-            Assert.Equal(131, g.Score());
+            gameOperations.Roll(new int[] { 1, 3, 7, 3, 10, 1, 7, 5, 2, 5, 3, 8, 2, 8, 2, 10, 9, 0 });
+            Assert.Equal(131, game.Score(gameOperations));
         }
 
         [Fact]
-        public void TestRandomGameWithSpareThenStrikeAtEnd()
+        public void RandomGameWithSpareThenStrikeAtEndTest()
         {
-            g.Roll(new int[] { 1, 3, 7, 3, 10, 1, 7, 5, 2, 5, 3, 8, 2, 8, 2, 10, 9, 1, 10 });
-            Assert.Equal(143, g.Score());
+            gameOperations.Roll(new int[] { 1, 3, 7, 3, 10, 1, 7, 5, 2, 5, 3, 8, 2, 8, 2, 10, 9, 1, 10 });
+            Assert.Equal(143, game.Score(gameOperations));
         }
 
         [Fact]
-        public void TestRandomGameWithThreeStrikesAtEnd()
+        public void RandomGameWithThreeStrikesAtEndTest()
         {
-            g.Roll(new int[] { 1, 3, 7, 3, 10, 1, 7, 5, 2, 5, 3, 8, 2, 8, 2, 10, 10, 10, 10 });
-            Assert.Equal(163, g.Score());
+            gameOperations.Roll(new int[] { 1, 3, 7, 3, 10, 1, 7, 5, 2, 5, 3, 8, 2, 8, 2, 10, 10, 10, 10 });
+            Assert.Equal(163, game.Score(gameOperations));
         }
     }
 }
